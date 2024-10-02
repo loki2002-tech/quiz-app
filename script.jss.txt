@@ -1,0 +1,61 @@
+const questions = [
+    {
+        question: "What is the capital of France?",
+        options: ["Berlin", "Madrid", "Paris", "Rome"],
+        correctAnswer: "Paris"
+    },
+    {
+        question: "Who wrote 'Hamlet'?",
+        options: ["Charles Dickens", "William Shakespeare", "Mark Twain", "Homer"],
+        correctAnswer: "William Shakespeare"
+    },
+    {
+        question: "What is 2 + 2?",
+        options: ["3", "4", "5", "6"],
+        correctAnswer: "4"
+    }
+];
+
+let currentQuestionIndex = 0;
+let score = 0;
+
+const questionElement = document.getElementById('question');
+const optionsElement = document.getElementById('options');
+const nextButton = document.getElementById('next');
+const resultElement = document.getElementById('result');
+
+function loadQuestion() {
+    const currentQuestion = questions[currentQuestionIndex];
+    questionElement.innerText = currentQuestion.question;
+    optionsElement.innerHTML = "";
+    
+    currentQuestion.options.forEach(option => {
+        const button = document.createElement('button');
+        button.innerText = option;
+        button.onclick = () => selectAnswer(option);
+        optionsElement.appendChild(button);
+    });
+}
+
+function selectAnswer(option) {
+    const currentQuestion = questions[currentQuestionIndex];
+    if (option === currentQuestion.correctAnswer) {
+        score++;
+    }
+    currentQuestionIndex++;
+    
+    if (currentQuestionIndex < questions.length) {
+        loadQuestion();
+    } else {
+        showResult();
+    }
+}
+
+function showResult() {
+    questionElement.innerHTML = "";
+    optionsElement.innerHTML = "";
+    nextButton.style.display = "none";
+    resultElement.innerText = `Your score is ${score} out of ${questions.length}`;
+}
+
+loadQuestion();
